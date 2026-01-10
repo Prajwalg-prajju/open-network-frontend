@@ -1,0 +1,337 @@
+/* ==================== FULL PROFILE CARD WRAPPER ==================== */
+.profile-card-wrapper {
+  max-width: 750px; /* max card width */
+  margin: 0 auto;
+  box-sizing: border-box;
+  background: #a99191;
+  font-family: "Arial", sans-serif;
+}
+
+/* ===== TOP HEADER BAR ===== */
+.top-identity-bar {
+  align-items: center;
+  justify-items: center;
+  background: #2d7fd6;
+  color: white;
+  padding: 12px 15px;
+  border-radius: 12px 12px 0 0;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.identity-left {
+  text-transform: uppercase;
+}
+
+.identity-right {
+  font-size: 0.85rem;
+}
+
+/* ===== COVER IMAGE ===== */
+.cover-image img {
+  
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 0;
+   /* overlaps avatar */
+}
+
+/* ===== PROFILE AVATAR + NAME + BIO ===== */
+.profile-info {
+
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 0 15px;
+  background-color: #333;
+}
+
+.profile-image-avatar {
+  width: 110px;
+  height: 110px;
+  margin-top: -55px;
+  border-radius: 50%;
+  border: 4px solid #ffffff;
+  background: #ffffff;
+  object-fit: cover;
+  z-index: 10;
+}
+
+.profile-text h2 {
+  margin: 8px 0 4px 0;
+  font-size: 1.5rem;
+}
+.bio-of_profile{
+  text-align: 'center';
+
+}
+
+
+.profile-text span {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.profile-text p {
+  font-size: 0.95rem;
+  margin: 6px 0 0 0;
+}
+
+/* ===== PROFILE SECTIONS ===== */
+.profile-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: #0056b3;
+}
+
+/* ===== INFO CARD ===== */
+.info-card {
+  background: white;
+  padding: 12px 15px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.08);
+}
+
+.info-card h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+  color: #007bff;
+}
+
+.info-card p,
+.info-card span {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* ===== SOCIAL / LANGUAGE BADGES ===== */
+.languages-list,
+.social-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.language-badge,
+.social-badge {
+  background: #e0e0e0;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+/* ===== BUTTONS ===== */
+.info-card button {
+  padding: 6px 12px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.info-card button:hover {
+  background-color: #0056b3;
+}
+
+/* ===== CUSTOM LINKS ===== */
+.custom-links-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* center heading + links */
+  gap: 12px;
+  width: 100%;
+  padding: 10px 0 20px 0;
+}
+
+.custom-links-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #007bff;
+  text-align: center;
+  margin: 0;
+}
+
+.custom-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* center links horizontally */
+  gap: 12px;
+  width: 100%;
+  max-width: 100%;       /* stretch to card width */
+  padding: 0 16px 20px;
+}
+
+.custom-link {
+  display: flex;
+  flex-direction: column;   /* stack title & URL vertically */
+  align-items: center;
+  gap: 4px;
+  padding: 12px 16px;
+  width: 100%;
+  max-width: 400px;        /* limit width inside card */
+  background: #ffffff;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #007bff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  text-align: center;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.custom-link:hover {
+  background: #f0f6ff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+.custom-link:active {
+  transform: scale(0.98);
+}
+
+.custom-link .link-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.custom-link .link-url {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #555;
+  word-break: break-all;
+}
+
+/* ================================
+   DOCUMENT CARD
+================================ */
+.info-card {
+  width: 100%;
+  max-width: 750px;
+  min-width: 320px;
+  margin: 0 auto 16px;
+  padding: 16px 18px;
+  box-sizing: border-box;
+
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* ================================
+   TITLE
+================================ */
+.info-card h3 {
+  margin: 0 0 14px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #222;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+/* ================================
+   EMPTY STATE
+================================ */
+.info-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+/* ================================
+   DOCUMENT LINKS
+================================ */
+.document-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px 14px;
+  margin-bottom: 10px;
+
+  background: #f8f9fb;
+  border: 1px solid #e6e8ee;
+  border-radius: 10px;
+
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+
+  transition: all 0.2s ease;
+}
+
+/* ================================
+   HOVER / ACTIVE
+
+/* ================================
+   LAST ITEM FIX
+================================ */
+.document-link:last-child {
+  margin-bottom: 0;
+}
+
+/* ================================
+   MOBILE OPTIMIZATION
+================================ */
+@media (max-width: 480px) {
+  .info-card {
+    padding: 14px;
+  }
+
+  .document-link {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+}
+
+
+
+
+/* ===== RESPONSIVE STYLING ===== */
+@media (max-width: 320px) {
+  .profile-card-wrapper {
+    min-width: 100%; /* mobile fallback */
+  }
+
+  .custom-link {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .link-title {
+    font-size: 0.95rem;
+  }
+
+  .link-url {
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 500px) {
+  .profile-card-wrapper {
+    padding: 15px;
+  }
+}
+
+@media (min-width: 750px) {
+  .profile-card-wrapper {
+    padding: 20px;
+  }
+
+  .custom-links {
+    padding: 0 20px 24px;
+  }
+
+  .custom-link {
+    font-size: 1rem;
+  }
+}

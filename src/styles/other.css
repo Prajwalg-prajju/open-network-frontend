@@ -1,0 +1,514 @@
+.profile-card-wrapper {
+  max-width: 750px; /* max card width */
+  margin: 0 auto;
+  box-sizing: border-box;
+  align-items: center;
+  align-content: center;
+  background: #ffffff;
+  font-family: "Arial", sans-serif;
+  padding-bottom: 80px;
+}
+.top-identity-bar {
+  align-items: center;
+  justify-items: center;
+  background: #ffffff;
+  color: rgb(39, 39, 39);
+  padding: 12px 15px;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.identity-left {
+ display:flex;
+ flex-direction: column;
+  text-transform: uppercase;
+}
+/* ===== COVER IMAGE ===== */
+.cover-image{
+    width: 100%;
+    height: 300px;
+}
+.cover-image img {
+
+  width: 100%;
+  height: 300px;
+   /* overlaps avatar */
+}
+
+.profile-info {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 0 15px;
+  
+}
+
+.profile-image-avatar {
+  width: 190px;
+  height: 190px;
+  margin-top: -100px;
+  border-radius: 20%;
+  border: 4px solid #ffffff;
+  background: #ffffff;
+  object-fit: cover;
+  z-index: 10;
+}
+
+.profile-text h2 {
+  margin: 8px 0 4px 0;
+  font-size: 1.5rem;
+}
+.bio-of_profile{
+  text-align: 'center';
+
+}
+
+
+.profile-text span {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.profile-text p {
+  font-size: 0.95rem;
+  margin: 6px 0 0 0;
+}
+
+
+.info-card {
+ margin-bottom: 20px;
+}
+
+.info-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 16px;
+line-height: 0.3;
+}
+
+.info-icon {
+ text-align: center;
+  font-size: 18px;
+  line-height: .3;
+}
+
+.info-sub {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+}
+
+
+/* ===== INFO CARD ===== */
+.info-card {
+  justify-content: center;
+}
+
+.info-card h3 {
+  margin-top: 0;
+  text-align: center;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  color: #242424;
+}
+
+.info-card p,
+.info-card span {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* ===== SOCIAL / LANGUAGE BADGES ===== */
+.languages-list,
+.social-list {
+justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.language-badge,
+.social-badge {
+  background: #e0e0e0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 0.85rem;
+}
+
+.document-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+
+  padding: 12px 14px;
+  margin-bottom: 10px;
+
+  background: #0b0b0b;
+  border: 1px solid #e6e8ee;
+  border-radius: 10px;
+
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #ffffff;
+  
+  }
+
+/* ================================
+   LAST ITEM FIX
+================================ */
+.document-link:last-child {
+  margin-bottom: 0;
+}
+/* ===== CUSTOM LINKS ===== */
+/* ================================
+   WRAPPER
+================================ */
+.custom-links-wrapper {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* TITLE */
+.custom-links-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #222;
+}
+
+/* LINKS CONTAINER */
+.custom-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* EACH LINK */
+.custom-link {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  background: #f8f9fb;
+  border: 1px solid #e6e8ee;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+/* HOVER EFFECT */
+.custom-link:hover {
+  background: #eef4ff;
+  border-color: #c9dcff;
+  color: #1a5eff;
+  transform: translateY(-1px);
+}
+
+/* LINK TITLE */
+.link-title {
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+  color: #222;
+}
+
+/* LAST ITEM FIX */
+.custom-link:last-child {
+  margin-bottom: 20px;
+}
+
+/* =========================
+   CONTACT INFO
+========================= */
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Row layout */
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Phone / Email text */
+.contact-text {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  background: #f6f4f4;
+  color: #222;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid #e0e0e0;
+  word-break: break-all;
+}
+
+.contact-text:hover {
+  background: #ededed;
+}
+
+/* Copy icon button */
+/* Remove button look completely */
+.copy-icon {
+  all: unset;                 /* removes button styles */
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -43px;
+}
+
+/* Subtle hover feedback */
+.copy-icon:hover {
+  opacity: 0.7;
+}
+
+/* Optional tap feedback (mobile) */
+.copy-icon:active {
+  transform: scale(0.9);
+}
+
+
+/* =========================
+   UPI PAYMENT
+========================= */
+.upi-card {
+  display: flex;
+  justify-content: center;
+}
+
+.upi-pay-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 12px;
+  border: none;
+  background: #1dbf73; /* UPI green */
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.upi-pay-btn:hover {
+  background: #17a864;
+}
+
+.upi-pay-btn:active {
+  transform: scale(0.97);
+}
+
+
+/* =========================
+   EMERGENCY SECTION
+========================= */
+.emergency-wrapper {
+  margin-top: 10px;
+}
+
+.emergency-btn {
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 12px;
+  text-decoration: none;
+  background: #ffeaea;
+  color: #c40000;
+  border: 1px solid #ffd1d1;
+}
+
+.emergency-btn:hover {
+  background: #ffdcdc;
+}
+
+/* =========================
+   ADDRESS SECTION CARD
+========================= */
+.address-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 2px solid #f5f5f5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* soft shadow */
+  transition: box-shadow 0.2s ease;
+}
+
+.address-card:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12); /* slightly stronger on hover */
+}
+
+
+/* Header with copy button */
+.address-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Copy icon */
+.address-copy-icon {
+  all: unset;           /* remove button styles */
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 2px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.address-copy-icon:hover {
+  opacity: 0.7;
+}
+
+/* Address text */
+.address-text {
+  font-size: 14px;
+  color: #222;
+  word-break: break-word;
+  margin: 0;
+}
+
+/* Get directions button */
+.get-directions-btn {
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 10px;
+   background: #007bff;
+  color: #fff;
+  text-decoration: none;
+  transition: background 0.2s ease;
+  width: 50%;
+}
+
+.get-directions-btn:hover {
+  background: #0056b3;;
+}
+
+
+
+/* Social section card */
+.social-section {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-start; /* change to center if needed */
+}
+
+.social-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 70px;       /* card width */
+  height: 70px;      /* card height */
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-radius: 12px;
+  text-decoration: none;
+  color: #333;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  padding: 4px;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.social-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+.social-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  margin-bottom: 2px; /* space between icon and name */
+}
+
+.social-name {
+  text-transform: capitalize;
+  word-break: break-word; /* prevent overflow for long names */
+}
+
+
+/* Remove default list styles */
+.social-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;        /* horizontal layout */
+  flex-wrap: wrap;      /* wrap if too many icons */
+  gap: 10px;            /* space between icons */
+}
+
+/* Each social icon link */
+.social-card li a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;          /* space around icon */
+  background: #f0f0f0;   /* light gray background */
+  border-radius: 8px;    /* rounded corners */
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover effect */
+.social-card li a:hover {
+  background: #e0e0e0;   /* slightly darker on hover */
+  transform: scale(1.1); /* small zoom effect */
+  
+}
+
+/* Icon image inside the link */
+.social-card li a img {
+  width: 24px;   /* icon size */
+  height: 24px;
+  display: block;
+}
+
+
+@media (max-width: 500px) {
+.cover-image img {
+  width: 100%;
+  height: 250px;
+   /* overlaps avatar */
+}
+.profile-image-avatar {
+
+  margin-top: -140px;
+
+}
+
+}
+
+@media (min-width: 750px) {
+
+}
