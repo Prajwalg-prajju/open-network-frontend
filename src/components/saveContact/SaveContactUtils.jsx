@@ -14,13 +14,13 @@ async function imageToBase64(imageUrl) {
       };
       reader.readAsDataURL(blob);
     });
-  } catch  {
+  } catch {
     console.warn("Image conversion failed");
     return "";
   }
 }
 
-// ✅ UNIVERSAL SAVE CONTACT (ANDROID + IOS)
+// ✅ ANDROID + IOS CONTACT PREVIEW
 export async function saveContact(contact) {
   try {
     const photoBase64 = await imageToBase64(contact.profile_image);
@@ -33,30 +33,26 @@ FN:${contact.name || ""}
 TEL;TYPE=CELL:${contact.phone_number || ""}
 EMAIL:${contact.email || ""}
 ADR;TYPE=HOME:;;${contact.address || ""};;;
-URL:${contact.website || ""}
 ${photoBase64 ? `PHOTO;ENCODING=b;TYPE=JPEG:${photoBase64}` : ""}
-${contact.linkedin ? `X-SOCIALPROFILE;TYPE=linkedin:${contact.linkedin}` : ""}
-${contact.facebook ? `X-SOCIALPROFILE;TYPE=facebook:${contact.facebook}` : ""}
-${contact.instagram ? `X-SOCIALPROFILE;TYPE=instagram:${contact.instagram}` : ""}
-${contact.twitter ? `X-SOCIALPROFILE;TYPE=twitter:${contact.twitter}` : ""}
 END:VCARD
-    `.trim();
+`.trim();
 
     const blob = new Blob([vCard], {
-      type: "text/x-vcard;charset=utf-8;", // ✅ Android & iOS safe
+      type: "text/x-vcard;charset=utf-8" // 🔥 IMPORTANT
     });
 
     const url = URL.createObjectURL(blob);
 
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${contact.name || "contact"}.vcf`;
+    // 🔥 MUST be an anchor click (Android intent)
+    const a = document.createElement("a");
+    a.href = url;
+    a.style.display = "none";
 
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 
-    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    setTimeout(() => URL.revokeObjectURL(url), 3000);
 
   } catch (error) {
     console.error("Save contact failed", error);
