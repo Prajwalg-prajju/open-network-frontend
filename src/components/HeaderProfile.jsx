@@ -12,7 +12,7 @@ import SocialSection from "./SocialSection";
 import AddressSection from "./AddressSection";
 import UPIPaymentButton from "./UPIPaymentButton";
 import ContactInfo from "./ContactInfo";
-import SaveContactButton from "./saveContact/SaveContactButton"
+// import SaveContactButton from "./saveContact/SaveContactButton"
 import "../styles/other.css"
 
 export default function HeaderProfile({ user, accountType }) {
@@ -69,7 +69,7 @@ export default function HeaderProfile({ user, accountType }) {
         <SocialSection
           socials={user.social_accounts || {}}
         />
-        <SaveContactButton user={user} />
+        {/* <SaveContactButton user={user} /> */}
 
       </div>
     </div>
