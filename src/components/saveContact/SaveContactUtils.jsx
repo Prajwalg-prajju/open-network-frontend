@@ -1,23 +1,43 @@
-async function imageToBase64(url) {
+async function resizeImage(url, maxWidth = 300, maxHeight = 300, quality = 0.7) {
   if (!url) return "";
 
   try {
-    const res = await fetch(url);
-    const blob = await res.blob();
-
-    // Keep small for Android compatibility
-    if (blob.size > 120000) return "";
-
-    return await new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64 = reader.result.split(",")[1];
-        const folded = base64.match(/.{1,74}/g).join("\r\n ");
-        resolve(folded);
-      };
-      reader.readAsDataURL(blob);
+    const img = await new Promise((resolve, reject) => {
+      const image = new Image();
+      image.crossOrigin = "Anonymous"; // Needed for cross-origin images
+      image.onload = () => resolve(image);
+      image.onerror = reject;
+      image.src = url;
     });
-  } catch {
+
+    const canvas = document.createElement("canvas");
+    let { width, height } = img;
+
+    // Maintain aspect ratio
+    if (width > height) {
+      if (width > maxWidth) {
+        height *= maxWidth / width;
+        width = maxWidth;
+      }
+    } else {
+      if (height > maxHeight) {
+        width *= maxHeight / height;
+        height = maxHeight;
+      }
+    }
+
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, width, height);
+
+    const dataUrl = canvas.toDataURL("image/jpeg", quality);
+    const base64 = dataUrl.split(",")[1];
+
+    // Fold lines for vCard
+    return base64.match(/.{1,74}/g).join("\r\n ");
+  } catch (err) {
+    console.warn("Image resize failed", err);
     return "";
   }
 }
@@ -26,9 +46,9 @@ export async function saveContact(user) {
   const profileLink =
     `https://prajwalg-prajju.github.io/open-network-frontend/#/u/${user.user_id}`;
 
-  const photoBase64 = await imageToBase64(user.profile_image);
+  // Resize/compress profile image before adding to vCard
+  const photoBase64 = await resizeImage(user.profile_image);
 
-  // Build vCard with only supported fields
   const vCardLines = [
     "BEGIN:VCARD",
     "VERSION:2.1",
@@ -38,8 +58,8 @@ export async function saveContact(user) {
     user.emergency_number ? `TEL;VOICE:${user.emergency_number}` : "",
     user.email ? `EMAIL:${user.email}` : "",
     user.address ? `ADR:;;${user.address};;;;` : "",
-    `URL:${profileLink}`, // profile link is always saved
-    // Save social links as separate URLs if provided
+    `URL:${profileLink}`, // profile link
+    // social links as separate URLs
     user.social_accounts?.instagram ? `URL:${user.social_accounts.instagram}` : "",
     user.social_accounts?.linkedin ? `URL:${user.social_accounts.linkedin}` : "",
     user.social_accounts?.x ? `URL:${user.social_accounts.x}` : "",
