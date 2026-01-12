@@ -1,26 +1,4 @@
-async function imageToBase64(url) {
-  if (!url) return "";
-
-  try {
-    const res = await fetch(url);
-    const blob = await res.blob();
-
-    if (blob.size > 300000) return "";
-
-    return await new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onloadend = () =>
-        resolve(reader.result.split(",")[1]);
-      reader.readAsDataURL(blob);
-    });
-  } catch {
-    return "";
-  }
-}
-
-export async function saveContact(user) {
-  const photo = await imageToBase64(user.profile_image);
-
+export function saveContact(user) {
   const profileLink =
     `https://prajwalg-prajju.github.io/open-network-frontend/#/u/${user.id}`;
 
@@ -42,31 +20,29 @@ Twitter: ${user.social_accounts?.x || ""}
 Custom Links:
 ${(user.custom_links || [])
   .map(l => `${l.label}: ${l.url}`)
-  .join("\\n")}
-`.trim();
+  .join("\n")}
+`.trim().replace(/\n/g, "\\n");
 
-  const vCard = `
-BEGIN:VCARD
+  const vCard =
+`BEGIN:VCARD
 VERSION:2.1
 N:${user.name || ""};;;
 FN:${user.name || ""}
 TEL;CELL:${user.phone_number || ""}
-TEL;TYPE=EMERGENCY:${user.emergency_number || ""}
+TEL;VOICE:${user.emergency_number || ""}
 EMAIL:${user.email || ""}
-ADR:;;${user.address || ""};;;
+ADR:;;${user.address || ""};;;;
 URL:${profileLink}
-NOTE:${notes.replace(/\n/g, "\\n")}
-${photo ? `PHOTO;JPEG;ENCODING=BASE64:${photo}` : ""}
-END:VCARD
-`.trim();
+NOTE:${notes}
+END:VCARD`;
 
   const blob = new Blob([vCard], {
-    type: "text/vcard;charset=utf-8"
+    type: "text/x-vcard;charset=utf-8"
   });
 
   const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
 
+  const a = document.createElement("a");
   a.href = url;
   a.download = `${user.name || "contact"}.vcf`;
   document.body.appendChild(a);
