@@ -1,61 +1,77 @@
-// Convert image URL to Base64 (for vCard PHOTO)
-async function imageToBase64(imageUrl) {
-  if (!imageUrl) return "";
+async function imageToBase64(url) {
+  if (!url) return "";
 
   try {
-    const response = await fetch(imageUrl);
-    const blob = await response.blob();
+    const res = await fetch(url);
+    const blob = await res.blob();
+
+    if (blob.size > 300000) return "";
 
     return await new Promise((resolve) => {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64 = reader.result.split(",")[1];
-        resolve(base64);
-      };
+      reader.onloadend = () =>
+        resolve(reader.result.split(",")[1]);
       reader.readAsDataURL(blob);
     });
   } catch {
-    console.warn("Image conversion failed");
     return "";
   }
 }
 
-// ✅ ANDROID + IOS CONTACT PREVIEW
-export async function saveContact(contact) {
-  try {
-    const photoBase64 = await imageToBase64(contact.profile_image);
+export async function saveContact(user) {
+  const photo = await imageToBase64(user.profile_image);
 
-    const vCard = `
+  const profileLink =
+    `https://prajwalg-prajju.github.io/open-network-frontend/#/u/${user.id}`;
+
+  const notes = `
+Open Profile: ${profileLink}
+
+Bio: ${user.bio || ""}
+Status: ${user.status_type || ""}
+Emergency: ${user.emergency_number || ""}
+Gender: ${user.gender || ""}
+DOB: ${user.birth_year || ""}
+Languages: ${(user.selected_languages || []).join(", ")}
+
+Social:
+Instagram: ${user.social_accounts?.instagram || ""}
+LinkedIn: ${user.social_accounts?.linkedin || ""}
+Twitter: ${user.social_accounts?.x || ""}
+
+Custom Links:
+${(user.custom_links || [])
+  .map(l => `${l.label}: ${l.url}`)
+  .join("\\n")}
+`.trim();
+
+  const vCard = `
 BEGIN:VCARD
-VERSION:3.0
-N:${contact.name || ""};;;
-FN:${contact.name || ""}
-TEL;TYPE=CELL:${contact.phone_number || ""}
-EMAIL:${contact.email || ""}
-ADR;TYPE=HOME:;;${contact.address || ""};;;
-${photoBase64 ? `PHOTO;ENCODING=b;TYPE=JPEG:${photoBase64}` : ""}
+VERSION:2.1
+N:${user.name || ""};;;
+FN:${user.name || ""}
+TEL;CELL:${user.phone_number || ""}
+TEL;TYPE=EMERGENCY:${user.emergency_number || ""}
+EMAIL:${user.email || ""}
+ADR:;;${user.address || ""};;;
+URL:${profileLink}
+NOTE:${notes.replace(/\n/g, "\\n")}
+${photo ? `PHOTO;JPEG;ENCODING=BASE64:${photo}` : ""}
 END:VCARD
 `.trim();
 
-    const blob = new Blob([vCard], {
-      type: "text/x-vcard;charset=utf-8" // 🔥 IMPORTANT
-    });
+  const blob = new Blob([vCard], {
+    type: "text/vcard;charset=utf-8"
+  });
 
-    const url = URL.createObjectURL(blob);
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
 
-    // 🔥 MUST be an anchor click (Android intent)
-    const a = document.createElement("a");
-    a.href = url;
-    a.style.display = "none";
+  a.href = url;
+  a.download = `${user.name || "contact"}.vcf`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-
-    setTimeout(() => URL.revokeObjectURL(url), 3000);
-
-  } catch (error) {
-    console.error("Save contact failed", error);
-    alert("Unable to save contact");
-  }
+  setTimeout(() => URL.revokeObjectURL(url), 3000);
 }

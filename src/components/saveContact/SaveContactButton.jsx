@@ -9,7 +9,7 @@ export default function SaveContactButton({ user }) {
 
   return (
     <button className="save-contact-btn" onClick={handleSave}>
-      💾 Save Contact
+      Save Contact
     </button>
   );
 }
