@@ -1,28 +1,29 @@
-async function resizeImage(url, maxWidth = 300, maxHeight = 300, quality = 0.7) {
+async function resizeAndCompressImage(url) {
   if (!url) return "";
 
   try {
     const img = await new Promise((resolve, reject) => {
       const image = new Image();
-      image.crossOrigin = "Anonymous"; // Needed for cross-origin images
+      image.crossOrigin = "Anonymous";
       image.onload = () => resolve(image);
       image.onerror = reject;
       image.src = url;
     });
 
     const canvas = document.createElement("canvas");
+    const maxSize = 150; // 150x150 px
     let { width, height } = img;
 
     // Maintain aspect ratio
     if (width > height) {
-      if (width > maxWidth) {
-        height *= maxWidth / width;
-        width = maxWidth;
+      if (width > maxSize) {
+        height = (height * maxSize) / width;
+        width = maxSize;
       }
     } else {
-      if (height > maxHeight) {
-        width *= maxHeight / height;
-        height = maxHeight;
+      if (height > maxSize) {
+        width = (width * maxSize) / height;
+        height = maxSize;
       }
     }
 
@@ -31,13 +32,14 @@ async function resizeImage(url, maxWidth = 300, maxHeight = 300, quality = 0.7) 
     const ctx = canvas.getContext("2d");
     ctx.drawImage(img, 0, 0, width, height);
 
-    const dataUrl = canvas.toDataURL("image/jpeg", quality);
+    // Compress JPEG aggressively to reduce size
+    const dataUrl = canvas.toDataURL("image/jpeg", 0.6);
     const base64 = dataUrl.split(",")[1];
 
-    // Fold lines for vCard
+    // Fold lines for vCard standard
     return base64.match(/.{1,74}/g).join("\r\n ");
   } catch (err) {
-    console.warn("Image resize failed", err);
+    console.warn("Image resize/compress failed", err);
     return "";
   }
 }
@@ -46,8 +48,7 @@ export async function saveContact(user) {
   const profileLink =
     `https://prajwalg-prajju.github.io/open-network-frontend/#/u/${user.user_id}`;
 
-  // Resize/compress profile image before adding to vCard
-  const photoBase64 = await resizeImage(user.profile_image);
+  const photoBase64 = await resizeAndCompressImage(user.profile_image);
 
   const vCardLines = [
     "BEGIN:VCARD",
@@ -58,12 +59,10 @@ export async function saveContact(user) {
     user.emergency_number ? `TEL;VOICE:${user.emergency_number}` : "",
     user.email ? `EMAIL:${user.email}` : "",
     user.address ? `ADR:;;${user.address};;;;` : "",
-    `URL:${profileLink}`, // profile link
-    // social links as separate URLs
+    `URL:${profileLink}`,
     user.social_accounts?.instagram ? `URL:${user.social_accounts.instagram}` : "",
     user.social_accounts?.linkedin ? `URL:${user.social_accounts.linkedin}` : "",
     user.social_accounts?.x ? `URL:${user.social_accounts.x}` : "",
-    // Profile image
     photoBase64 ? `PHOTO;JPEG;ENCODING=BASE64:\r\n ${photoBase64}` : "",
     "END:VCARD"
   ];
