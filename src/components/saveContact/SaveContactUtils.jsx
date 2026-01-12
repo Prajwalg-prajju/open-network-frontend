@@ -5,13 +5,12 @@ async function fetchProfileImageBase64(profileUrl) {
   if (!profileUrl) return "";
 
   try {
-    const url = `${API_BASE_URL}${profileUrl}`; // full URL
+    const url = `${API_BASE_URL}${profileUrl}`;
     const res = await fetch(url, { mode: "cors" }); // CORS must be enabled on server
     if (!res.ok) return "";
 
     const blob = await res.blob();
 
-    // Resize and compress to make it small for vCard
     const img = await new Promise((resolve, reject) => {
       const image = new Image();
       image.crossOrigin = "Anonymous";
@@ -20,7 +19,7 @@ async function fetchProfileImageBase64(profileUrl) {
       image.src = URL.createObjectURL(blob);
     });
 
-    const maxSize = 150; // 150x150px max
+    const maxSize = 150;
     let { width, height } = img;
 
     if (width > height) {
@@ -44,7 +43,6 @@ async function fetchProfileImageBase64(profileUrl) {
     const dataUrl = canvas.toDataURL("image/jpeg", 0.6);
     const base64 = dataUrl.split(",")[1];
 
-    // Fold lines for vCard
     return base64.match(/.{1,74}/g).join("\r\n ");
   } catch (err) {
     console.warn("Profile image fetch/compress failed", err);
@@ -52,10 +50,9 @@ async function fetchProfileImageBase64(profileUrl) {
   }
 }
 
-// Save user as vCard with profile image + supported fields
+// Save contact as vCard
 export async function saveContact(user) {
   const profileLink = `https://prajwalg-prajju.github.io/open-network-frontend/#/u/${user.user_id}`;
-
   const photoBase64 = await fetchProfileImageBase64(user.profile_image);
 
   const vCardLines = [
@@ -67,7 +64,7 @@ export async function saveContact(user) {
     user.emergency_number ? `TEL;VOICE:${user.emergency_number}` : "",
     user.email ? `EMAIL:${user.email}` : "",
     user.address ? `ADR:;;${user.address};;;;` : "",
-    `URL:${profileLink}`, // always save main profile link
+    `URL:${profileLink}`,
     user.social_accounts?.instagram ? `URL:${user.social_accounts.instagram}` : "",
     user.social_accounts?.linkedin ? `URL:${user.social_accounts.linkedin}` : "",
     user.social_accounts?.x ? `URL:${user.social_accounts.x}` : "",
