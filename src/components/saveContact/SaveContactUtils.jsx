@@ -1,20 +1,28 @@
-async function resizeAndCompressImage(url) {
-  if (!url) return "";
+import { API_BASE_URL } from "../services/apiConfig";
+
+// Convert remote profile image to Base64
+async function fetchProfileImageBase64(profileUrl) {
+  if (!profileUrl) return "";
 
   try {
+    const url = `${API_BASE_URL}${profileUrl}`; // full URL
+    const res = await fetch(url, { mode: "cors" }); // CORS must be enabled on server
+    if (!res.ok) return "";
+
+    const blob = await res.blob();
+
+    // Resize and compress to make it small for vCard
     const img = await new Promise((resolve, reject) => {
       const image = new Image();
       image.crossOrigin = "Anonymous";
       image.onload = () => resolve(image);
       image.onerror = reject;
-      image.src = url;
+      image.src = URL.createObjectURL(blob);
     });
 
-    const canvas = document.createElement("canvas");
-    const maxSize = 150; // 150x150 px
+    const maxSize = 150; // 150x150px max
     let { width, height } = img;
 
-    // Maintain aspect ratio
     if (width > height) {
       if (width > maxSize) {
         height = (height * maxSize) / width;
@@ -27,28 +35,28 @@ async function resizeAndCompressImage(url) {
       }
     }
 
+    const canvas = document.createElement("canvas");
     canvas.width = width;
     canvas.height = height;
     const ctx = canvas.getContext("2d");
     ctx.drawImage(img, 0, 0, width, height);
 
-    // Compress JPEG aggressively to reduce size
     const dataUrl = canvas.toDataURL("image/jpeg", 0.6);
     const base64 = dataUrl.split(",")[1];
 
-    // Fold lines for vCard standard
+    // Fold lines for vCard
     return base64.match(/.{1,74}/g).join("\r\n ");
   } catch (err) {
-    console.warn("Image resize/compress failed", err);
+    console.warn("Profile image fetch/compress failed", err);
     return "";
   }
 }
 
+// Save user as vCard with profile image + supported fields
 export async function saveContact(user) {
-  const profileLink =
-    `https://prajwalg-prajju.github.io/open-network-frontend/#/u/${user.user_id}`;
+  const profileLink = `https://prajwalg-prajju.github.io/open-network-frontend/#/u/${user.user_id}`;
 
-  const photoBase64 = await resizeAndCompressImage(user.profile_image);
+  const photoBase64 = await fetchProfileImageBase64(user.profile_image);
 
   const vCardLines = [
     "BEGIN:VCARD",
@@ -59,12 +67,12 @@ export async function saveContact(user) {
     user.emergency_number ? `TEL;VOICE:${user.emergency_number}` : "",
     user.email ? `EMAIL:${user.email}` : "",
     user.address ? `ADR:;;${user.address};;;;` : "",
-    `URL:${profileLink}`,
+    `URL:${profileLink}`, // always save main profile link
     user.social_accounts?.instagram ? `URL:${user.social_accounts.instagram}` : "",
     user.social_accounts?.linkedin ? `URL:${user.social_accounts.linkedin}` : "",
     user.social_accounts?.x ? `URL:${user.social_accounts.x}` : "",
     photoBase64 ? `PHOTO;JPEG;ENCODING=BASE64:\r\n ${photoBase64}` : "",
-    "END:VCARD"
+    "END:VCARD",
   ];
 
   const vCard = vCardLines.filter(Boolean).join("\r\n");
