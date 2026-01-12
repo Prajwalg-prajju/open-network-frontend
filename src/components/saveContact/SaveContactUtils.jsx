@@ -1,6 +1,7 @@
 export function saveContact(user) {
+
   const profileLink =
-    `https://prajwalg-prajju.github.io/open-network-frontend/#/u/${user.id}`;
+    `https://prajwalg-prajju.github.io/open-network-frontend/#/u/${user.user_id}`;
 
   const notes = `
 Open Profile: ${profileLink}
