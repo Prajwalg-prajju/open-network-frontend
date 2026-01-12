@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "../services/apiConfig";
+import { API_BASE_URL } from "../../services/apiConfig";
 
 // Convert remote profile image to Base64
 async function fetchProfileImageBase64(profileUrl) {
