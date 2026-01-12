@@ -1,54 +1,42 @@
-async function resizeAndCompressImage(url) {
+async function imageUrlToBase64(url) {
   if (!url) return "";
 
   try {
-    const img = await new Promise((resolve, reject) => {
-      const image = new Image();
-      image.crossOrigin = "Anonymous";
-      image.onload = () => resolve(image);
-      image.onerror = reject;
-      image.src = url;
+    const res = await fetch(url, { mode: "cors" }); // will fail if no CORS
+    const blob = await res.blob();
+
+    const reader = new FileReader();
+    return await new Promise((resolve, reject) => {
+      reader.onloadend = () => {
+        const base64 = reader.result.split(",")[1];
+        resolve(base64.match(/.{1,74}/g).join("\r\n "));
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
     });
-
-    const canvas = document.createElement("canvas");
-    const maxSize = 150; // 150x150 px
-    let { width, height } = img;
-
-    // Maintain aspect ratio
-    if (width > height) {
-      if (width > maxSize) {
-        height = (height * maxSize) / width;
-        width = maxSize;
-      }
-    } else {
-      if (height > maxSize) {
-        width = (width * maxSize) / height;
-        height = maxSize;
-      }
-    }
-
-    canvas.width = width;
-    canvas.height = height;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0, width, height);
-
-    // Compress JPEG aggressively to reduce size
-    const dataUrl = canvas.toDataURL("image/jpeg", 0.6);
-    const base64 = dataUrl.split(",")[1];
-
-    // Fold lines for vCard standard
-    return base64.match(/.{1,74}/g).join("\r\n ");
-  } catch (err) {
-    console.warn("Image resize/compress failed", err);
+  } catch {
+    console.warn("Cannot fetch remote image, use file input instead");
     return "";
   }
 }
 
-export async function saveContact(user) {
-  const profileLink =
-    `https://prajwalg-prajju.github.io/open-network-frontend/#/u/${user.user_id}`;
+export async function saveContact(user, fileInput = null) {
+  let photoBase64 = "";
 
-  const photoBase64 = await resizeAndCompressImage(user.profile_image);
+  if (fileInput?.files?.[0]) {
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    photoBase64 = await new Promise((resolve) => {
+      reader.onloadend = () => {
+        resolve(reader.result.split(",")[1].match(/.{1,74}/g).join("\r\n "));
+      };
+      reader.readAsDataURL(file);
+    });
+  } else if (user.profile_image) {
+    photoBase64 = await imageUrlToBase64(user.profile_image);
+  }
+
+  const profileLink = `https://prajwalg-prajju.github.io/open-network-frontend/#/u/${user.user_id}`;
 
   const vCardLines = [
     "BEGIN:VCARD",
