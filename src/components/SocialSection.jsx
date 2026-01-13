@@ -1,15 +1,15 @@
 import React from "react";
-import instagramIcon from "../assets/social/instagram.png";
+import instagramIcon from "../assets/social/iinstagram.png";
 import facebookIcon from "../assets/social/instagram.png";
-import twitterIcon from "../assets/social/instagram.png";
-import linkedinIcon from "../assets/social/instagram.png";
-import youtubeIcon from "../assets/social/instagram.png";
-import pinterestIcon from "../assets/social/instagram.png";
-import snapchatIcon from "../assets/social/instagram.png";
+import twitterIcon from "../assets/social/twitter.png";
+import linkedinIcon from "../assets/social/linkdin.png";
+import youtubeIcon from "../assets/social/youtube.png";
+import pinterestIcon from "../assets/social/pintrest.png";
+import snapchatIcon from "../assets/social/snapshot.png";
 import telegramIcon from "../assets/social/instagram.png";
-import tiktokIcon from "../assets/social/instagram.png";
+import tiktokIcon from "../assets/social/tiktok.png";
 import websiteIcon from "../assets/social/instagram.png";
-import whatsappIcon from "../assets/social/instagram.png";
+import whatsappIcon from "../assets/social/whatsapp.png";
 
 
 const ICONS = {
