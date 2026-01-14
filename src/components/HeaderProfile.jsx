@@ -19,15 +19,18 @@ export default function HeaderProfile({ user, accountType }) {
 
       <ProfileHeader user={user} accountType={accountType} />
 
-      <CoverImage url={user.cover_image} />
+      <CoverImage 
+        url={user.cover_image}
+        gender={user.gender}
+        birthYear={Number(user.birth_year)}
+      />
+      
 
       <ProfileAgeAndGender
         name={user.name}
         namelocation={user.namelocation}
         bio={user.bio}
         profileUrl={user.profile_image}
-        gender={user.gender}
-        birthYear={Number(user.birth_year)}
       />
 
       <div className="profile-sections">

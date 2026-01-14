@@ -6,8 +6,7 @@ export default function ProfileAgeAndGender({
   namelocation,
   bio,
   profileUrl,
-  gender,
-  birthYear
+
 }) {
   return (
     <div className="profile-info">
@@ -20,14 +19,8 @@ export default function ProfileAgeAndGender({
       <div className="profile-text">
         <h2>{name}</h2>
 
-        {birthYear && (
-          <span>
-            {new Date().getFullYear() - birthYear} Y • {gender}
-          </span>
-        )}
-
         {location && (
-            <span className="profile-location">• {namelocation}</span>
+            <span className="profile-location">📍{namelocation}</span>
           )}
         <p className="bio-of_profile">{bio}</p>
       </div>
