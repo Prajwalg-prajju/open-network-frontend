@@ -1,15 +1,17 @@
+/* ================= SAVE CONTACT BUTTON ================= */
 .save-contact-btn {
   display: flex;
-  flex-direction: column;
+  justify-content: center;   /* horizontally center text */
+  align-items: center;       /* vertically center text */
 
   position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
 
-  width: 100%;
-  max-width: 730px;   /* ✅ max */
-  min-width: 320px;   /* ✅ min */
+  width: 90%;
+  max-width: 720px;   /* maximum width */
+  min-width: 280px;   /* minimum width */
 
   background: linear-gradient(135deg, #4f46e5, #3b82f6);
   color: #fff;
@@ -25,14 +27,20 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   z-index: 9999;
+  text-align: center;        /* ensure text stays centered */
 }
 
+/* Hover effect */
 .save-contact-btn:hover {
   transform: translateX(-50%) translateY(-2px);
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
 }
+
+/* Mobile adjustments */
 @media (max-width: 360px) {
   .save-contact-btn {
-    margin: 0 10px;
+    width: calc(100% - 20px); /* 10px margin each side */
+    padding: 12px 16px;
+    font-size: 14px;
   }
 }
