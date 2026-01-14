@@ -1,10 +1,10 @@
 import { API_BASE_URL } from "../services/apiConfig";
+import React, { useState } from "react";
 
 export default function Document({ documents }) {
-  // Ensure documents is always an array
   const docs = Array.isArray(documents) ? documents : [];
+  const [openDoc, setOpenDoc] = useState(null); // currently opened doc URL
 
-  // If no files uploaded, don't render the card
   if (docs.length === 0) return null;
 
   return (
@@ -12,16 +12,29 @@ export default function Document({ documents }) {
       <h3>Documents</h3>
 
       {docs.map((doc, index) => (
-        <a
-          key={index}
-          href={`${API_BASE_URL}${doc.url}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="document-link"
-        >
-          📄 {doc.name || `Document ${index + 1}`}
-        </a>
+        <div key={index}>
+          <span
+            className="document-link"
+            style={{ cursor: "pointer" }}
+            onClick={() => setOpenDoc(`${API_BASE_URL}${doc.url}`)}
+          >
+            📄 {doc.name || `Document ${index + 1}`}
+          </span>
+        </div>
       ))}
+
+      {openDoc && (
+        <div className="document-modal">
+          <button className="close-modal" onClick={() => setOpenDoc(null)}>
+            ❌
+          </button>
+          <iframe
+            src={openDoc}
+            title="Document Viewer"
+            className="document-iframe"
+          />
+        </div>
+      )}
     </div>
   );
 }
