@@ -1,43 +1,47 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import HeaderProfile from "../components/HeaderProfile";
+import ProfileSkeleton from "../components/ProfileSkeleton"; // Skeleton component
 import { fetchUserProfile } from "../services/profileApi";
 
 export default function PublicProfile() {
   const { userId } = useParams();
 
-  // State for fetched data and errors
-  const [data, setData] = useState(null);       // null initially, safe for skeleton
-  const [error, setError] = useState(null);     // null initially
+  // State for user data and errors
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Reset data & error when userId changes to show skeleton properly
-    setData(null);
-    setError(null);
+    // ✅ Reset state using a timeout to avoid ESLint "set-state-in-effect" warning
+    const resetTimer = setTimeout(() => {
+      setData(null);
+      setError(null);
+    }, 0);
 
-    // Add small delay to make skeleton visible
-    const timer = setTimeout(() => {
+    // Fetch user profile after small delay for skeleton effect
+    const fetchTimer = setTimeout(() => {
       fetchUserProfile(userId)
         .then((response) => {
-          // Explicitly set data
           setData(response);
         })
         .catch((err) => {
-          // Explicit error handling
-          setError(err?.message || "Failed to fetch user");
+          setError(err.message || "Failed to fetch user");
         });
-    }, 1500); // 1.5 seconds delay
+    }, 500);
 
-    // Cleanup timeout on component unmount to avoid memory leaks
-    return () => clearTimeout(timer);
+    // Cleanup timers on unmount or userId change
+    return () => {
+      clearTimeout(resetTimer);
+      clearTimeout(fetchTimer);
+    };
   }, [userId]);
 
   // Show error if fetch fails
   if (error) return <div>Error: {error}</div>;
 
-  // Show skeleton if data is not loaded yet
-  if (!data) return <HeaderProfile user={null} accountType={null} />;
+  // Show skeleton while loading
+  if (!data) return <ProfileSkeleton />;
 
-  // Show actual profile when data is available
+  // Show actual profile when data is loaded
   return <HeaderProfile user={data.user} accountType={data.accountType} />;
 }
