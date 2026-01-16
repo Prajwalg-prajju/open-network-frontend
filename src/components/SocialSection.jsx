@@ -11,7 +11,6 @@ import tiktokIcon from "../assets/social/tiktok.png";
 import websiteIcon from "../assets/social/web.png";
 import whatsappIcon from "../assets/social/whatsapp.png";
 
-
 const ICONS = {
   instagram: instagramIcon,
   facebook: facebookIcon,
@@ -24,8 +23,35 @@ const ICONS = {
   tiktok: tiktokIcon,
   website: websiteIcon,
   whatsapp: whatsappIcon,
-  x: twitterIcon, // map X to Twitter icon
+  x: twitterIcon,
 };
+
+const BASE_URLS = {
+  instagram: "https://instagram.com/",
+  facebook: "https://facebook.com/",
+  twitter: "https://twitter.com/",
+  x: "https://x.com/",
+  linkedin: "https://www.linkedin.com/in/",
+  youtube: "https://www.youtube.com/",
+  pinterest: "https://pinterest.com/",
+  snapchat: "https://www.snapchat.com/add/",
+  telegram: "https://t.me/",
+  tiktok: "https://www.tiktok.com/@",
+  whatsapp: "https://wa.me/",
+  website: "",
+};
+
+function buildLink(platform, value) {
+  if (!value) return "#";
+
+  // already full url
+  if (value.startsWith("http://") || value.startsWith("https://")) {
+    return value;
+  }
+
+  const base = BASE_URLS[platform.toLowerCase()] || "";
+  return base + value.replace(/^@/, "");
+}
 
 export default function SocialSection({ socials }) {
   if (!socials) return null;
@@ -39,13 +65,16 @@ export default function SocialSection({ socials }) {
   return (
     <div className="social-section">
       {socialArray.map(({ platform, url }) => {
-        const iconSrc = ICONS[platform.toLowerCase()];
+        const key = platform.toLowerCase();
+        const iconSrc = ICONS[key];
         if (!iconSrc) return null;
+
+        const finalUrl = buildLink(key, url);
 
         return (
           <a
             key={platform}
-            href={url.startsWith("http") ? url : `https://${url}`}
+            href={finalUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="social-card"
