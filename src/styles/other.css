@@ -5,20 +5,32 @@
 html, body {
   margin: 0;
   padding: 0;
+  height: 100%;
+  overflow: hidden; /* stop default page scroll */
 }
-body {
-  overflow-y: scroll;
+
+/* Create your own scroll container */
+.profile-card-wrapper {
+  max-width: 750px;
+  margin: 0 auto;
+  background: #ffffff;
+  font-family: "Arial", sans-serif;
+  padding-bottom: 80px;
+
+  height: 100vh;
+  overflow-y: auto;
+
   scrollbar-width: none;      /* Firefox */
   -ms-overflow-style: none;   /* IE / Edge */
 }
 
-body::-webkit-scrollbar {
+.profile-card-wrapper::-webkit-scrollbar {
   display: none;             /* Chrome / Safari */
 }
 
 
-.profile-card-wrapper {
-  max-width: 750px; /* max card width */
+/* .profile-card-wrapper {
+  max-width: 750px; 
   margin: 0 auto;
   box-sizing: border-box;
   align-items: center;
@@ -26,14 +38,7 @@ body::-webkit-scrollbar {
   background: #ffffff;
   font-family: "Arial", sans-serif;
   padding-bottom: 80px;
-
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.profile-card-wrapper::-webkit-scrollbar {
-  display: none;
-}
+} */
 .top-identity-bar {
   align-items: center;
   justify-items: center;
