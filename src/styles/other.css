@@ -6,7 +6,7 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  /* overflow: hidden; stop default page scroll */
+  overflow: hidden; /* stop default page scroll */
 }
 
 /* Create your own scroll container */
@@ -667,6 +667,77 @@ justify-content: center;
   width: 24px;   /* icon size */
   height: 24px;
   display: block;
+}
+
+
+/* ===== Skeleton Loader ===== */
+
+.skeleton-cover {
+  height: 280px;
+  background: #e5e5e5;
+}
+
+.skeleton-header {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+}
+
+.skeleton-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #ddd;
+}
+
+.skeleton-lines {
+  flex: 1;
+}
+
+.skeleton-line {
+  height: 14px;
+  background: #ddd;
+  margin-bottom: 8px;
+  border-radius: 6px;
+}
+
+.skeleton-line.short {
+  width: 60%;
+}
+
+.skeleton-card {
+  height: 70px;
+  margin: 12px;
+  background: #ddd;
+  border-radius: 10px;
+}
+
+/* shimmer effect */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150px;
+  width: 150px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.6),
+    transparent
+  );
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 100%;
+  }
 }
 
 

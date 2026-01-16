@@ -14,20 +14,17 @@ export default function PublicProfile() {
       .catch(err => setError(err.message));
   }, [userId]);
 
-  useEffect(() => {
-    if (data) {
-      console.log("🧠 Stored data:", data);
-    }
-  }, [data]);
-
   if (error) return <div>Error: {error}</div>;
-  if (!data) return <div>Loading...</div>;
+
+  // 👉 Show skeleton instead of text
+  if (!data) {
+    return <HeaderProfile user={null} accountType={null} />;
+  }
 
   return (
-  <HeaderProfile
-    user={data.user}
-    accountType={data.accountType}
-  />
-);
-
+    <HeaderProfile
+      user={data.user}
+      accountType={data.accountType}
+    />
+  );
 }
