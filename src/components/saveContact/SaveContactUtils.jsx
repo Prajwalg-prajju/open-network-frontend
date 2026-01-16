@@ -52,7 +52,7 @@ async function fetchProfileImageBase64(profileUrl) {
 
 // Save contact as vCard
 export async function saveContact(user) {
-  const profileLink = `https://prajwalg-prajju.github.io/open-network-frontend/u/${user.user_id}`;
+  const profileLink = `https://prajwalg-prajju.github.io/open-network-frontend/#/u/${user.user_id}`;
   const photoBase64 = await fetchProfileImageBase64(user.profile_image);
 
   const vCardLines = [
