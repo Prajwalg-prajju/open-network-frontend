@@ -6,6 +6,17 @@ html, body {
   margin: 0;
   padding: 0;
 }
+body {
+  overflow-y: scroll;
+  scrollbar-width: none;      /* Firefox */
+  -ms-overflow-style: none;   /* IE / Edge */
+}
+
+body::-webkit-scrollbar {
+  display: none;             /* Chrome / Safari */
+}
+
+
 .profile-card-wrapper {
   max-width: 750px; /* max card width */
   margin: 0 auto;
@@ -15,6 +26,13 @@ html, body {
   background: #ffffff;
   font-family: "Arial", sans-serif;
   padding-bottom: 80px;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.profile-card-wrapper::-webkit-scrollbar {
+  display: none;
 }
 .top-identity-bar {
   align-items: center;
