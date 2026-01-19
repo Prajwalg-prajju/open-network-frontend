@@ -1,5 +1,5 @@
 import React from "react";
-import instagramIcon from "../assets/social/iinstagram.png";
+import instagramIcon from "../assets/social/instagram.svg";
 import facebookIcon from "../assets/social/facebook.svg";
 import twitterIcon from "../assets/social/twitterr.svg";
 import linkedinIcon from "../assets/social/linkedin.svg";
