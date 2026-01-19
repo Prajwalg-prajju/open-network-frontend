@@ -1,12 +1,14 @@
 import React from "react";
 import copyIcon from "../assets/social/copy.svg";
+import phoneIcon from "../assets/social/phone.svg";
+import emailIcon from "../assets/social/email.svg";
 
 export default function ContactInfo({ phone, email, emergency }) {
   if (!phone && !email && !emergency) return null;
 
   const copyToClipboard = (text) => {
-  navigator.clipboard.writeText(text);
-};
+    navigator.clipboard.writeText(text);
+  };
 
   return (
     <div className="info-card contact-info">
@@ -15,12 +17,13 @@ export default function ContactInfo({ phone, email, emergency }) {
       {phone && (
         <div className="contact-row">
           <a href={`tel:${phone}`} className="contact-text">
-            <span className="contact-value">📞 {phone}</span>
+            <img src={phoneIcon} alt="Phone" className="contact-asset" />
+            <span className="contact-value">{phone}</span>
 
             <button
               className="copy-icon"
               onClick={(e) => {
-                e.preventDefault();   // stop calling
+                e.preventDefault();
                 e.stopPropagation();
                 copyToClipboard(phone);
               }}
@@ -36,7 +39,8 @@ export default function ContactInfo({ phone, email, emergency }) {
       {email && (
         <div className="contact-row">
           <a href={`mailto:${email}`} className="contact-text">
-            <span className="contact-value">✉️ {email}</span>
+            <img src={emailIcon} alt="Email" className="contact-asset" />
+            <span className="contact-value">{email}</span>
 
             <button
               className="copy-icon"

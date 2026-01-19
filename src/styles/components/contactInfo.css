@@ -2,6 +2,14 @@
   display: flex;
 }
 
+.contact-asset {
+  width: 18px;      /* adjust size */
+  height: 18px;
+  object-fit: contain;
+  margin-right: 8px;
+}
+
+
 .contact-text {
   flex: 1;
   padding: 12px 42px 12px 12px;
