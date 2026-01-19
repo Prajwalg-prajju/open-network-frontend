@@ -1,4 +1,5 @@
 import React from "react";
+import copyIcon from "../assets/social/copy.svg";
 
 export default function AddressSection({ address, lat, lng }) {
   if (!address && !lat && !lng) return null;
@@ -7,15 +8,13 @@ export default function AddressSection({ address, lat, lng }) {
     navigator.clipboard.writeText(text);
   };
 
-  // Detect iOS
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-  // Construct link
   let mapLink = "#";
 
   if (lat && lng) {
     mapLink = isIOS
-      ? `maps://?q=${lat},${lng}` // Apple Maps on iOS
+      ? `maps://?q=${lat},${lng}`
       : `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
   } else if (address) {
     mapLink = isIOS
@@ -26,7 +25,8 @@ export default function AddressSection({ address, lat, lng }) {
   return (
     <div className="info-card address-card">
       <div className="address-header">
-        <h3>📍Location</h3>
+        <h3>📍 Location</h3>
+
         {address && (
           <button
             className="address-copy-icon"
@@ -34,7 +34,7 @@ export default function AddressSection({ address, lat, lng }) {
             title="Copy address"
             type="button"
           >
-            📋
+            <img src={copyIcon} alt="Copy" className="address-copy-img" />
           </button>
         )}
       </div>
@@ -47,7 +47,7 @@ export default function AddressSection({ address, lat, lng }) {
         rel="noreferrer"
         className="get-directions-btn"
       >
-         Get Directions
+        Get Directions
       </a>
     </div>
   );

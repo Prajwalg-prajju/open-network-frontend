@@ -1,26 +1,10 @@
-
-/* =========================
-   CONTACT INFO
-========================= */
-
-.contact-info {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 5px;
-}
-
-/* Row layout */
 .contact-row {
   display: flex;
-  align-items: center;
-  gap: 10px;
 }
-
 
 .contact-text {
   flex: 1;
-  padding: 12px;
+  padding: 12px 42px 12px 12px;
   border-radius: 10px;
   background: #f6f4f4;
   color: #222;
@@ -28,33 +12,83 @@
   font-weight: 600;
   text-decoration: none;
   border: 1px solid #e0e0e0;
-  word-break: break-all;
+  word-break: break-word;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  margin: 5px;
 }
 
-.contact-text:hover {
-  background: #ededed;
+.contact-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* Copy icon button */
-/* Remove button look completely */
 .copy-icon {
-  all: unset;                 /* removes button styles */
+  all: unset;
   cursor: pointer;
-  font-size: 18px;
-  line-height: 1;
-  padding: 4px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: -43px;
 }
 
-/* Subtle hover feedback */
 .copy-icon:hover {
   opacity: 0.7;
 }
 
-/* Optional tap feedback (mobile) */
 .copy-icon:active {
-  transform: scale(0.9);
+  transform: translateY(-50%) scale(0.9);
+}
+
+.copy-icon-img {
+  width: 18px;
+  height: 18px;
+}
+
+
+/* =========================
+   EMERGENCY SECTION
+========================= */
+.emergency-wrapper {
+  margin-top: 10px;
+  margin: 5px;
+}
+
+.emergency-btn {
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 12px;
+  text-decoration: none;
+  background: #ffeaea;
+  color: #c40000;
+  border: 1px solid #ff3f3f;
+}
+
+.emergency-btn:hover {
+  background: #ffdcdc;
+}
+
+/* Remove mobile tap highlight */
+.contact-text,
+.copy-icon,
+.emergency-btn {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent active color flash */
+.contact-text:active,
+.emergency-btn:active {
+  background: #f6f4f4;
+  color: #222;
 }

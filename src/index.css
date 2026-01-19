@@ -13,4 +13,5 @@
 @import "./styles/components/socialSection.css";
 @import "./styles/components/profileSkeleton.css";
 @import "./styles/responsive/mobile.css";
+@import "./styles/base/global.css"
 
