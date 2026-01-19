@@ -12,7 +12,7 @@ import UPIPaymentButton from "./UPIPaymentButton";
 import ContactInfo from "./ContactInfo";
 import SaveContactButton from "./saveContact/SaveContactButton"
 import ProfileSkeleton from "./ProfileSkeleton"
-import "../styles/other.css"
+
 
 export default function HeaderProfile({ user, accountType }) {
   if (!user) {

@@ -1,0 +1,90 @@
+
+/* ===== Skeleton Loader ===== */
+
+/* Container */
+.skeleton-wrapper {
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 16px;
+  font-family: Arial, sans-serif;
+}
+
+/* Cover Image Skeleton */
+.skeleton-cover {
+  width: 100%;
+  height: 280px;
+  background: #e5e5e5;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header with avatar + name */
+.skeleton-header {
+  display: flex;
+  gap: 16px;
+  padding: 16px 0;
+  align-items: center;
+}
+
+/* Avatar */
+.skeleton-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #ddd;
+}
+
+/* Name + bio lines */
+.skeleton-lines {
+  flex: 1;
+}
+
+.skeleton-line {
+  height: 14px;
+  background: #ddd;
+  margin-bottom: 8px;
+  border-radius: 6px;
+}
+
+.skeleton-line.short {
+  width: 60%;
+}
+
+/* Section cards (Documents, Socials, etc.) */
+.skeleton-card {
+  height: 70px;
+  margin: 12px 0;
+  background: #ddd;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer effect */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150px;
+  width: 150px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.6),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 100%;
+  }
+}

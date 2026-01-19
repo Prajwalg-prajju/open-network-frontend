@@ -1,0 +1,84 @@
+
+/* Social section card */
+.social-section {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center; /* change to center if needed */
+  margin: 4px;
+}
+
+.social-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 70px;       /* card width */
+  height: 70px;      /* card height */
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-radius: 12px;
+  text-decoration: none;
+  color: #333;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  padding: 4px;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.social-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+.social-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  margin-bottom: 2px; /* space between icon and name */
+}
+
+.social-name {
+  text-transform: capitalize;
+  word-break: break-word; /* prevent overflow for long names */
+}
+
+
+/* Remove default list styles */
+.social-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;        /* horizontal layout */
+  flex-wrap: wrap;      /* wrap if too many icons */
+  gap: 10px;            /* space between icons */
+}
+
+/* Each social icon link */
+.social-card li a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;          /* space around icon */
+  background: #f0f0f0;   /* light gray background */
+  border-radius: 8px;    /* rounded corners */
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover effect */
+.social-card li a:hover {
+  background: #e0e0e0;   /* slightly darker on hover */
+  transform: scale(1.1); /* small zoom effect */
+  
+}
+
+/* Icon image inside the link */
+.social-card li a img {
+  width: 24px;   /* icon size */
+  height: 24px;
+  display: block;
+}
+

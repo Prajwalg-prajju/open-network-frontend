@@ -1,0 +1,48 @@
+/* Create your own scroll container */
+.profile-card-wrapper {
+  max-width: 750px;
+  margin: 0 auto;
+  background: #ffffff;
+  font-family: "Arial", sans-serif;
+  padding-bottom: 90px;
+  min-width: 320px;
+
+  height: 100vh;
+  overflow-y: auto;
+
+  scrollbar-width: none;      /* Firefox */
+  -ms-overflow-style: none;   /* IE / Edge */
+  align-items: center;
+}
+
+.profile-card-wrapper::-webkit-scrollbar {
+  display: none;             /* Chrome / Safari */
+}
+
+
+/* .profile-card-wrapper {
+  max-width: 750px; 
+  margin: 0 auto;
+  box-sizing: border-box;
+  align-items: center;
+  align-content: center;
+  background: #ffffff;
+  font-family: "Arial", sans-serif;
+  padding-bottom: 80px;
+  
+} */
+.top-identity-bar {
+  align-items: center;
+  justify-items: center;
+  background: #ffffff;
+  color: rgb(39, 39, 39);
+  padding: 12px 15px;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.identity-left {
+ display:flex;
+ flex-direction: column;
+  text-transform: uppercase;
+}

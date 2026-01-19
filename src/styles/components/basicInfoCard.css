@@ -1,0 +1,47 @@
+
+.info-card {
+ margin-bottom: 20px;
+}
+
+.info-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 16px;
+line-height: 0.3;
+}
+
+.info-icon {
+ text-align: center;
+  font-size: 18px;
+  line-height: .3;
+}
+
+.info-sub {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+}
+
+
+/* ===== INFO CARD ===== */
+.info-card {
+  justify-content: center;
+}
+
+.info-card h3 {
+  margin-top: 0;
+  text-align: center;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  color: #242424;
+}
+
+.info-card p,
+.info-card span {
+  font-size: 0.9rem;
+  color: #333;
+}
