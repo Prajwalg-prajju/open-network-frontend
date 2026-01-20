@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 export default function Document({ documents }) {
   const docs = Array.isArray(documents) ? documents : [];
-  const [openDoc, setOpenDoc] = useState(null); // currently opened doc URL
+  const [openDoc, setOpenDoc] = useState(null);
 
   if (docs.length === 0) return null;
 
@@ -25,9 +25,14 @@ export default function Document({ documents }) {
 
       {openDoc && (
         <div className="document-modal">
-          <button className="close-modal" onClick={() => setOpenDoc(null)}>
-            ❌
+          <button
+            className="close-modal"
+            onClick={() => setOpenDoc(null)}
+            aria-label="Close document"
+          >
+            ✕
           </button>
+
           <iframe
             src={openDoc}
             title="Document Viewer"
