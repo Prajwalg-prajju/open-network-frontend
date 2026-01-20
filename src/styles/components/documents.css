@@ -1,5 +1,6 @@
-
-/* DOCUMENT LINK */
+/* ================================
+   DOCUMENT LINK
+================================ */
 .document-link {
   display: flex;
   align-items: center;
@@ -7,7 +8,7 @@
   justify-content: center;
 
   padding: 12px 14px;
-  margin-bottom: 10px;
+  margin: 5px 0;
 
   background: #0b0b0b;       /* dark background */
   border: 1px solid #e6e8ee;
@@ -18,7 +19,6 @@
   font-weight: 500;
   color: #ffffff !important;
   cursor: pointer;
-  margin: 5px;
 }
 
 /* fix last item spacing */
@@ -26,9 +26,9 @@
   margin-bottom: 0;
 }
 
-
-
-  /* modal overlay */
+/* ================================
+   MODAL
+================================ */
 .document-modal {
   position: fixed;
   inset: 0;
@@ -36,19 +36,26 @@
   z-index: 9999;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch; /* smooth scroll mobile */
 }
 
 .document-iframe {
   flex: 1;
   width: 100%;
   border: none;
+  min-height: 100vh; /* ensure full height on mobile */
 }
 
-/* Close button */
+/* ================================
+   CLOSE BUTTON
+================================ */
 .close-modal {
   position: fixed;
   top: 8px;
-  right: 120px;
+  right: 120px;  /* desktop default */
   z-index: 10000;
 
   background: transparent;
@@ -75,12 +82,11 @@
   transition: background 0.2s ease, transform 0.1s ease;
 }
 
-
-
 .close-modal:active {
   transform: scale(0.9);
 }
-/* Hover effect using ::before for smaller background */
+
+/* Hover effect for desktop */
 .close-modal::before {
   content: '';
   position: absolute;
@@ -99,8 +105,30 @@
 }
 
 /* ================================
-   LAST ITEM FIX
+   MOBILE / RESPONSIVE
+   max-width: 750px, min-width: 320px
 ================================ */
-.document-link:last-child {
-  margin-bottom: 0;
+@media (max-width: 750px) and (min-width: 320px) {
+  .document-link {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .document-modal {
+    width: 100%;
+    height: 100%;
+  }
+
+  .document-iframe {
+    min-height: 100vh;
+  }
+
+  .close-modal {
+    right: 10px;   /* adjust for mobile */
+    top: 10px;
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
 }
