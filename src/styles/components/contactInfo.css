@@ -12,7 +12,7 @@
 
 .contact-text {
   flex: 1;
-  padding: 12px 42px 12px 12px;
+  padding: 12px 44px 12px 12px; /* more right padding */
   border-radius: 10px;
   background: #f6f4f4;
   color: #222;
@@ -24,17 +24,17 @@
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
   position: relative;
   margin: 5px;
 }
 
+
 .contact-value {
+  max-width: calc(100% - 28px); /* keep space for icon */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
 .copy-icon {
   all: unset;
   cursor: pointer;
