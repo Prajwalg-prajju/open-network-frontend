@@ -6,5 +6,16 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
- /* stop default page scroll */
+  overflow: hidden; /* stop default page scroll */
+}
+
+.scroll-container {
+  height: 100vh;         /* full viewport height */
+  overflow-y: auto;       /* allow vertical scroll */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scroll-container::-webkit-scrollbar {
+  width: 0;               /* Chrome, Safari */
+  background: transparent; 
 }
