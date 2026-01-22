@@ -38,7 +38,7 @@ const BASE_URLS = {
   telegram: "https://t.me/",
   tiktok: "https://www.tiktok.com/@",
   whatsapp: "https://wa.me/",
-  website: "",
+  website: "https://",
 };
 
 function buildLink(platform, value) {
