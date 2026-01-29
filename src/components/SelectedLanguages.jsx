@@ -2,6 +2,7 @@
 import React from "react";
 
 export default function SelectedLanguage({ languages }) {
+  if (!languages || languages.length === 0) return null;
   return (
     <div className="info-card">
       <h3>Languages</h3>

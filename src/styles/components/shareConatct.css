@@ -1,0 +1,99 @@
+/* components/profiles/ShareContact.css */
+
+.share-contact-wrapper {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.share-contact-btn-main {
+  background: #4f46e5;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.share-contact-btn-main:hover {
+  background: #3730a3;
+}
+
+/* Modal background */
+.share-contact-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal content */
+.share-contact-content {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.share-contact-content h3 {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.share-contact-content input,
+.share-contact-content textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.submit-btn {
+  background: #4f46e5;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.submit-btn:hover {
+  background: #3730a3;
+}
+
+.cancel-btn {
+  background: #ccc;
+  color: #222;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cancel-btn:hover {
+  background: #999;
+}
+
+.success-message {
+  color: green;
+  margin-top: 8px;
+  font-weight: bold;
+}
