@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function ShareContact({ userId }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -7,75 +7,55 @@ export default function ShareContact({ userId }) {
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
   const [submitted, setSubmitted] = useState(false);
-
-  const [photo, setPhoto] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
-  const [cameraOn, setCameraOn] = useState(false);
+  const [photo, setPhoto] = useState(null);
 
-  const videoRef = useRef(null);
-  const canvasRef = useRef(null);
-
-  // Start camera
-  const startCamera = async () => {
+  // Handle camera capture
+  const handleCapture = async () => {
     try {
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        alert("Camera not supported on this browser.");
-        return;
-      }
-
-      // Stop previous stream
-      if (videoRef.current?.srcObject) {
-        videoRef.current.srcObject.getTracks().forEach((t) => t.stop());
-      }
-
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: { ideal: "environment" } },
-        audio: false,
+      // Ask browser to capture a photo (mobile & desktop)
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" },
       });
 
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        videoRef.current.setAttribute("playsinline", true); // iOS
-        videoRef.current.muted = true; // required for autoplay
-        await videoRef.current.play();
-      }
+      // Create a temporary video element to grab a frame
+      const video = document.createElement("video");
+      video.srcObject = mediaStream;
+      video.play();
 
-      setCameraOn(true);
+      // Wait for video metadata to load
+      await new Promise((resolve) => {
+        video.onloadedmetadata = () => resolve(true);
+      });
+
+      // Create canvas to take a snapshot
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // Stop the stream immediately
+      mediaStream.getTracks().forEach((track) => track.stop());
+
+      // Save photo
+      canvas.toBlob(
+        (blob) => {
+          if (blob) {
+            setPhoto(blob);
+            setPhotoPreview(URL.createObjectURL(blob));
+          } else {
+            // fallback for Safari
+            setPhotoPreview(canvas.toDataURL("image/jpeg", 0.95));
+          }
+        },
+        "image/jpeg",
+        0.95
+      );
     } catch (err) {
       console.error("Camera error:", err);
-      alert("Please allow camera permission in your browser settings.");
+      alert("Camera access denied or not supported on this device.");
     }
-  };
-
-  // Stop camera
-  const stopCamera = () => {
-    if (videoRef.current?.srcObject) {
-      videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
-      videoRef.current.srcObject = null;
-    }
-    setCameraOn(false);
-  };
-
-  // Capture photo
-  const capturePhoto = () => {
-    if (!videoRef.current || !canvasRef.current) return;
-
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
-
-    // Make canvas same size as video
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    canvas.toBlob((blob) => {
-      setPhoto(blob);
-      setPhotoPreview(URL.createObjectURL(blob));
-    }, "image/jpeg", 0.95);
-
-    stopCamera(); // stop camera after capture
   };
 
   // Submit form
@@ -143,64 +123,39 @@ export default function ShareContact({ userId }) {
                 maxLength={600}
               />
 
-              {/* Camera button */}
-              {!cameraOn && !photoPreview && (
+              {/* Capture photo button */}
+              {!photoPreview && (
                 <button
                   type="button"
                   className="camera-btn pulse"
-                  onClick={startCamera}
+                  onClick={handleCapture}
                 >
-                  📷 Open Camera
+                  📸 Capture Photo
                 </button>
               )}
 
-              {/* Live camera */}
-              {cameraOn && (
-                <>
-                  <video
-                    ref={videoRef}
-                    autoPlay
-                    playsInline
-                    muted
+              {/* Preview */}
+              {photoPreview && (
+                <div style={{ textAlign: "center", marginBottom: "12px" }}>
+                  <img
+                    src={photoPreview}
+                    alt="Captured"
                     style={{
                       width: "100%",
+                      maxHeight: "160px",
                       borderRadius: "10px",
-                      marginBottom: "8px",
+                      objectFit: "cover",
                     }}
                   />
                   <button
                     type="button"
                     className="camera-btn"
-                    onClick={capturePhoto}
+                    onClick={() => setPhotoPreview(null)}
                   >
-                    📸 Capture
+                    🔄 Retake Photo
                   </button>
-                </>
-              )}
-
-              {/* Photo preview */}
-              {photoPreview && (
-                <div
-                  style={{
-                    marginBottom: "12px",
-                    textAlign: "center",
-                  }}
-                >
-                  <img
-                    src={photoPreview}
-                    alt="Preview"
-                    style={{
-                      width: "100%",
-                      maxHeight: "160px",
-                      objectFit: "cover",
-                      borderRadius: "10px",
-                    }}
-                  />
                 </div>
               )}
-
-              {/* Hidden canvas */}
-              <canvas ref={canvasRef} hidden />
 
               <div className="modal-buttons">
                 <button type="submit" className="submit-btn">
@@ -209,10 +164,7 @@ export default function ShareContact({ userId }) {
                 <button
                   type="button"
                   className="cancel-btn"
-                  onClick={() => {
-                    stopCamera();
-                    setIsOpen(false);
-                  }}
+                  onClick={() => setIsOpen(false)}
                 >
                   Cancel
                 </button>
