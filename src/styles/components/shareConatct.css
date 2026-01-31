@@ -7,7 +7,7 @@
 }
 
 /* MAIN BUTTON */
-.share-contact-btn-main {
+.share-your-contact-btn-main {
   background: linear-gradient(135deg, #6366f1, #8b5cf6);
   color: #fff;
   padding: 12px 20px;
@@ -20,6 +20,7 @@
   max-width: 750px;
   width: 100%;
   box-shadow: 0 6px 18px rgba(99,102,241,0.35);
+  margin-bottom: 12px;
 }
 
 
@@ -45,9 +46,20 @@
   border-radius: 16px;
   max-width: 420px;
   width: 92%;
+  max-height: 90vh;         /* maximum height (90% of viewport) */
+  height: auto;             /* allows height to adjust with content */
+  overflow-y: auto;         /* enable vertical scroll */
+  scrollbar-width: none;    /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
   box-shadow: 0 20px 40px rgba(0,0,0,0.25);
   position: relative;
   animation: popup 0.25s ease;
+}
+
+/* Hide scrollbar for Webkit browsers (Chrome, Safari, Edge) */
+.share-contact-content::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 @keyframes popup {
@@ -61,11 +73,15 @@
   }
 }
 
-.share-contact-content h3 {
+.share-contact-content{
   margin-bottom: 18px;
+  
+}
+.share-contact-heading{
   text-align: center;
   color: #3730a3;
   font-weight: 700;
+  margin-top: 0;
 }
 
 /* INPUTS */
@@ -136,7 +152,7 @@
 /* SUCCESS */
 .success-message {
   color: #16a34a;
-  margin-top: 10px;
+
   font-weight: 600;
   text-align: center;
 }
@@ -151,4 +167,5 @@
   cursor: pointer;
   font-weight: 600;
   margin-bottom: 10px;
+
 }

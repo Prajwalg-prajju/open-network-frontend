@@ -1,4 +1,4 @@
-import React from "react";
+import React from  "react";
 import BaseProfileLayout from "./BaseProfileLayout";
 
 import ProfileHeader from "../ProfileHeader";
@@ -14,9 +14,10 @@ import UPIPaymentButton from "../UPIPaymentButton";
 import ContactInfo from "../ContactInfo";
 import SaveContactButton from "../saveContact/SaveContactButton";
 import ShareContact from "../ShareContact";
+import { useState } from "react";
 
 export default function OpenNetworkProfile({ user, accountType }) {
-    console.log(user)
+  const [isShareOpen, setIsShareOpen] = useState(false);
   return (
     <BaseProfileLayout
       user={user}
@@ -39,7 +40,7 @@ export default function OpenNetworkProfile({ user, accountType }) {
       sections={
         <>
           <BasicInfo statusType={user.status_type} fillOne={user.fillone} fillTwo={user.filltwo} />
-          <ShareContact userId={user.id} />
+          <ShareContact userId={user.id} onToggle={setIsShareOpen} />
           <SelectedLanguage languages={user.selected_languages || []} />
           <Document documents={user.documents || []} />
           <CustomLinks links={user.custom_links} />
@@ -47,7 +48,7 @@ export default function OpenNetworkProfile({ user, accountType }) {
           <UPIPaymentButton upiId={user.upi_id} />
           <AddressSection address={user.address} lat={user.lat} lng={user.lng} />
           <SocialSection socials={user.social_accounts || {}} />
-          <SaveContactButton user={user} />
+          <SaveContactButton user={user} hidden={isShareOpen} />
         </>
       }
     />

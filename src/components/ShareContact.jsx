@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
-export default function ShareContact({ userId }) {
+export default function ShareContact({ userId, onToggle }) {
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -8,18 +8,30 @@ export default function ShareContact({ userId }) {
   const [note, setNote] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const [cameraActive, setCameraActive] = useState(false); // <-- control live camera
+  const [cameraActive, setCameraActive] = useState(false);
   const [photoBlob, setPhotoBlob] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
-  const [facingMode, setFacingMode] = useState("user"); // front camera default
+  const [facingMode, setFacingMode] = useState("user");
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const streamRef = useRef(null);
 
-  // Start camera
+  // Stop camera completely
+  const stopCamera = useCallback(() => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
+    }
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
+    }
+  }, []);
+
+  // Start camera safely
   const startCamera = useCallback(async () => {
     try {
+      stopCamera(); // stop any previous stream first
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode },
         audio: false,
@@ -27,22 +39,18 @@ export default function ShareContact({ userId }) {
       streamRef.current = stream;
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        videoRef.current.setAttribute("playsinline", true);
         videoRef.current.muted = true;
-        await videoRef.current.play();
+        videoRef.current.playsInline = true;
+        const playPromise = videoRef.current.play();
+        playPromise?.catch(() => {});
       }
+      setCameraActive(true);
     } catch (err) {
       console.error("Camera error:", err);
-      alert("Camera access denied or not supported on this device.");
+      alert("Camera access denied or not supported.");
       setCameraActive(false);
     }
-  }, [facingMode]);
-
-  // Stop camera
-  const stopCamera = useCallback(() => {
-    streamRef.current?.getTracks().forEach((track) => track.stop());
-    streamRef.current = null;
-  }, []);
+  }, [facingMode, stopCamera]);
 
   // Capture photo
   const capturePhoto = () => {
@@ -59,7 +67,7 @@ export default function ShareContact({ userId }) {
       if (blob) {
         setPhotoBlob(blob);
         setPhotoPreview(URL.createObjectURL(blob));
-        stopCamera(); // stop camera after capture
+        stopCamera(); // stop camera after taking photo
         setCameraActive(false);
       }
     }, "image/jpeg", 0.95);
@@ -70,22 +78,25 @@ export default function ShareContact({ userId }) {
     setFacingMode((prev) => (prev === "user" ? "environment" : "user"));
   };
 
-  // Restart camera when facingMode changes (only if camera active)
- useEffect(() => {
-  if (!cameraActive) return;
-
   // Restart camera when facingMode changes
-  const restartCamera = async () => {
-    stopCamera();
-    await startCamera();
-  };
+  useEffect(() => {
+    if (!cameraActive) return;
+    const run = async () => {
+      stopCamera();
+      await startCamera();
+    };
+    run();
+  }, [facingMode, cameraActive, startCamera, stopCamera]);
 
-  restartCamera();
-}, [facingMode, cameraActive, startCamera, stopCamera]);
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => stopCamera();
+  }, [stopCamera]);
 
-  // Submit form
+  // Submit
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const payload = {
       sharedBy: userId,
       name,
@@ -94,17 +105,21 @@ export default function ShareContact({ userId }) {
       note,
       photo: photoBlob,
     };
+
     console.log("Submitting:", payload);
 
-    setSubmitted(true);
-    setIsOpen(false);
+    stopCamera();
     setCameraActive(false);
-    setPhotoBlob(null);
     setPhotoPreview(null);
+    setPhotoBlob(null);
+    setIsOpen(false);
+    onToggle?.(false);
+
     setName("");
     setPhone("");
     setEmail("");
     setNote("");
+    setSubmitted(true);
   };
 
   // Auto-hide success message
@@ -117,8 +132,11 @@ export default function ShareContact({ userId }) {
   return (
     <div className="share-contact-wrapper">
       <button
-        className="share-contact-btn-main"
-        onClick={() => setIsOpen(true)}
+        className="share-your-contact-btn-main"
+        onClick={() => {
+          setIsOpen(true);
+          onToggle?.(true);
+        }}
       >
         Share Your Contact
       </button>
@@ -126,7 +144,8 @@ export default function ShareContact({ userId }) {
       {isOpen && (
         <div className="share-contact-modal">
           <div className="share-contact-content">
-            <h3>Share Your Contact</h3>
+            <h3 className="share-contact-heading">Share Your Contact</h3>
+
             <form onSubmit={handleSubmit}>
               <input
                 type="text"
@@ -149,19 +168,18 @@ export default function ShareContact({ userId }) {
                 onChange={(e) => setEmail(e.target.value)}
               />
               <textarea
-                placeholder="Add a note (max 100 words)"
+                placeholder="Add a note"
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
                 maxLength={600}
               />
 
-              {/* Button to activate live camera */}
+              {/* Activate camera */}
               {!cameraActive && !photoPreview && (
                 <button
                   type="button"
                   className="camera-btn"
-                  onClick={() => setCameraActive(true)}
-                  style={{ width: "100%", padding: "12px", fontSize: "16px" }}
+                  onClick={startCamera}
                 >
                   📸 Capture Live Photo
                 </button>
@@ -169,17 +187,13 @@ export default function ShareContact({ userId }) {
 
               {/* Live camera feed */}
               {cameraActive && !photoPreview && (
-                <div style={{ marginBottom: "12px" }}>
+                <div style={{ marginBottom: "12px"}}>
                   <video
                     ref={videoRef}
-                    style={{
-                      width: "100%",
-                      borderRadius: "10px",
-                      marginBottom: "8px",
-                    }}
+                    style={{ width: "100%", borderRadius: "10px" }}
                     autoPlay
-                    playsInline
                     muted
+                    playsInline
                   />
                   <div style={{ display: "flex", gap: "10px" }}>
                     <button
@@ -204,30 +218,34 @@ export default function ShareContact({ userId }) {
 
               {/* Photo preview */}
               {photoPreview && (
-                <div style={{ textAlign: "center", marginBottom: "12px" }}>
-                  <img
-                    src={photoPreview}
-                    alt="Captured"
-                    style={{
-                      width: "100%",
-                      maxHeight: "200px",
-                      borderRadius: "10px",
-                      objectFit: "cover",
-                    }}
-                  />
-                  <button
-                    type="button"
-                    className="camera-btn"
-                    onClick={() => {
-                      setPhotoPreview(null);
-                      setPhotoBlob(null);
-                      setCameraActive(true);
-                    }}
-                  >
-                    🔄 Retake
-                  </button>
-                </div>
-              )}
+  <div style={{ textAlign: "center", marginBottom: "12px" }}>
+    <img
+      src={photoPreview}
+      alt="Captured"
+      style={{
+        width: "100%",
+        maxHeight: "200px",
+        borderRadius: "10px",
+        objectFit: "cover",
+      }}
+    />
+    <button
+      type="button"
+      className="camera-btn"
+      onClick={async () => {
+        // Reset previous photo
+        setPhotoPreview(null);
+        setPhotoBlob(null);
+
+        // Start camera fresh
+        await startCamera();
+      }}
+    >
+      🔄 Retake
+    </button>
+  </div>
+)}
+
 
               <canvas ref={canvasRef} hidden />
 
@@ -235,13 +253,17 @@ export default function ShareContact({ userId }) {
                 <button type="submit" className="submit-btn">
                   Submit
                 </button>
+
                 <button
                   type="button"
                   className="cancel-btn"
                   onClick={() => {
                     stopCamera();
                     setCameraActive(false);
+                    setPhotoPreview(null);
+                    setPhotoBlob(null);
                     setIsOpen(false);
+                    onToggle?.(false);
                   }}
                 >
                   Cancel
@@ -253,7 +275,9 @@ export default function ShareContact({ userId }) {
       )}
 
       {submitted && (
-        <div className="success-message">Contact shared successfully!</div>
+        <div className="success-message">
+          Contact shared successfully!
+        </div>
       )}
     </div>
   );
