@@ -171,27 +171,30 @@
 
 }
 
-
 /* === Scroll Hint Wrapper === */
 .scroll-indicator {
-  position: sticky;
-  bottom: 14px;
-  margin-top: 24px;
+  position: fixed; /* sticky -> fixed for mobile visibility */
+  bottom: 40px;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: center;
-  z-index: 50;
+  z-index: 9999;
   pointer-events: none;
+  padding-bottom: env(safe-area-inset-bottom); /* iOS safe area */
+  animation: floatWrapper 2.5s ease-in-out infinite;
 }
 
 /* === Glass Bubble === */
 .scroll-arrows {
-  background: linear-gradient(135deg, rgba(255,255,255,.75), rgba(240,240,255,.6));
-  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, rgba(255,255,255,.85), rgba(240,240,255,.7));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 10px 16px;
   border-radius: 999px;
   box-shadow: 
-    0 10px 25px rgba(0,0,0,0.25),
-    inset 0 1px 1px rgba(255,255,255,.6);
+    0 12px 28px rgba(99,102,241,0.35),
+    inset 0 1px 1px rgba(255,255,255,.7);
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -229,14 +232,16 @@
   }
 }
 
-/* === Float Animation === */
+/* === Float Animation for Bubble === */
 @keyframes floatHint {
-  0%,100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-6px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* === Subtle wrapper float (whole indicator) === */
+@keyframes floatWrapper {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 
 /* === Mobile Polish === */
@@ -249,5 +254,7 @@
   .scroll-arrows i {
     width: 10px;
     height: 10px;
+    border-right: 2px solid #6366f1;
+    border-bottom: 2px solid #6366f1;
   }
 }
