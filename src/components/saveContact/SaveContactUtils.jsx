@@ -65,6 +65,7 @@ export async function saveContact(user) {
     user.email ? `EMAIL:${user.email}` : "",
     user.address ? `ADR:;;${user.address};;;;` : "",
     `URL:${profileLink}`,
+    user.social_accounts?.website ? `URL:${user.social_accounts.website}` : "",
     user.social_accounts?.instagram ? `URL:${user.social_accounts.instagram}` : "",
     user.social_accounts?.linkedin ? `URL:${user.social_accounts.linkedin}` : "",
     user.social_accounts?.x ? `URL:${user.social_accounts.x}` : "",
