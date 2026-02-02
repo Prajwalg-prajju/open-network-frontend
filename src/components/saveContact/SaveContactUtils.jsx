@@ -61,7 +61,7 @@ export async function saveContact(user) {
     `N:${user.name || ""};;;`,
     `FN:${user.name || ""}`,
     user.phone_number ? `TEL;CELL:${user.phone_number}` : "",
-    user.emergency_number ? `TEL;VOICE:${user.emergency_number}` : "",
+    // user.emergency_number ? `TEL;VOICE:${user.emergency_number}` : "",
     user.email ? `EMAIL:${user.email}` : "",
     user.address ? `ADR:;;${user.address};;;;` : "",
     `URL:${profileLink}`,
