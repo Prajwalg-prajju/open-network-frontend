@@ -13,9 +13,36 @@ export default function ShareContact({ userId, onToggle }) {
   const [photoPreview, setPhotoPreview] = useState(null);
   const [facingMode, setFacingMode] = useState("user");
 
+  const contentRef = useRef(null);
+const [showScrollHint, setShowScrollHint] = useState(false);
+
+
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const streamRef = useRef(null);
+
+
+  useEffect(() => {
+  if (!isOpen) return;
+
+  const timer = setTimeout(() => {
+    const el = contentRef.current;
+    if (!el) return;
+
+    setShowScrollHint(el.scrollHeight > el.clientHeight + 5);
+  }, 120);
+
+  return () => clearTimeout(timer);
+}, [isOpen, cameraActive, photoPreview]);
+
+const handleScroll = () => {
+  const el = contentRef.current;
+  if (!el) return;
+
+  if (el.scrollTop > 10) {
+    setShowScrollHint(false);
+  }
+};
 
   // Stop camera completely
   const stopCamera = useCallback(() => {
@@ -143,7 +170,12 @@ export default function ShareContact({ userId, onToggle }) {
 
       {isOpen && (
         <div className="share-contact-modal">
-          <div className="share-contact-content">
+          <div
+  className="share-contact-content"
+  ref={contentRef}
+  onScroll={handleScroll}
+>
+
             <h3 className="share-contact-heading">Share Your Contact</h3>
 
             <form onSubmit={handleSubmit}>
@@ -173,6 +205,7 @@ export default function ShareContact({ userId, onToggle }) {
                 onChange={(e) => setNote(e.target.value)}
                 maxLength={600}
               />
+              
 
               {/* Activate camera */}
               {!cameraActive && !photoPreview && (
@@ -270,6 +303,16 @@ export default function ShareContact({ userId, onToggle }) {
                 </button>
               </div>
             </form>
+            {showScrollHint && (
+              <div className="scroll-indicator">
+                <div className="scroll-arrows">
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                </div>
+              </div>
+            )}
+
           </div>
         </div>
       )}

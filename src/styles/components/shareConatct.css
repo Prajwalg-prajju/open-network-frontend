@@ -1,5 +1,6 @@
 /* components/profiles/ShareContact.css */
 
+
 .share-contact-wrapper {
   margin-bottom: 16px;
   text-align: center;
@@ -168,4 +169,85 @@
   font-weight: 600;
   margin-bottom: 10px;
 
+}
+
+
+/* === Scroll Hint Wrapper === */
+.scroll-indicator {
+  position: sticky;
+  bottom: 14px;
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  z-index: 50;
+  pointer-events: none;
+}
+
+/* === Glass Bubble === */
+.scroll-arrows {
+  background: linear-gradient(135deg, rgba(255,255,255,.75), rgba(240,240,255,.6));
+  backdrop-filter: blur(10px);
+  padding: 10px 16px;
+  border-radius: 999px;
+  box-shadow: 
+    0 10px 25px rgba(0,0,0,0.25),
+    inset 0 1px 1px rgba(255,255,255,.6);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  animation: floatHint 2.2s ease-in-out infinite;
+}
+
+/* === Arrow Style === */
+.scroll-arrows i {
+  width: 11px;
+  height: 11px;
+  border-right: 2.5px solid #6366f1;
+  border-bottom: 2.5px solid #6366f1;
+  transform: rotate(225deg);
+  opacity: 0;
+  animation: scrollArrow 1.6s infinite;
+}
+
+/* === Delay === */
+.scroll-arrows i:nth-child(1) { animation-delay: 0s; }
+.scroll-arrows i:nth-child(2) { animation-delay: .18s; }
+.scroll-arrows i:nth-child(3) { animation-delay: .36s; }
+
+/* === Arrow Motion === */
+@keyframes scrollArrow {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) rotate(225deg);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-6px) rotate(225deg);
+  }
+}
+
+/* === Float Animation === */
+@keyframes floatHint {
+  0%,100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* === Mobile Polish === */
+@media (max-width: 480px) {
+  .scroll-arrows {
+    padding: 8px 14px;
+    gap: 5px;
+  }
+
+  .scroll-arrows i {
+    width: 10px;
+    height: 10px;
+  }
 }
