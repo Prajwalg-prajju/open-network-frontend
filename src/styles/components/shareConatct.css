@@ -7,6 +7,14 @@
   margin: 5px;
 }
 
+.share-contact-content video {
+  width: 100%;
+  max-height: 200px; /* mobile-friendly */
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+
 /* MAIN BUTTON */
 .share-your-contact-btn-main {
   background: linear-gradient(135deg, #6366f1, #8b5cf6);
