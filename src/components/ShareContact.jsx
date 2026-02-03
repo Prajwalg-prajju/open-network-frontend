@@ -251,33 +251,33 @@ const handleScroll = () => {
 
               {/* Photo preview */}
               {photoPreview && (
-  <div style={{ textAlign: "center", marginBottom: "12px" }}>
-    <img
-      src={photoPreview}
-      alt="Captured"
-      style={{
-        width: "100%",
-        maxHeight: "200px",
-        borderRadius: "10px",
-        objectFit: "cover",
-      }}
-    />
-    <button
-      type="button"
-      className="camera-btn"
-      onClick={async () => {
-        // Reset previous photo
-        setPhotoPreview(null);
-        setPhotoBlob(null);
+              <div style={{ textAlign: "center", marginBottom: "12px" }}>
+                <img
+                  src={photoPreview}
+                  alt="Captured"
+                  style={{
+                    width: "100%",
+                    maxHeight: "200px",
+                    borderRadius: "10px",
+                    objectFit: "cover",
+                  }}
+                />
+                <button
+                  type="button"
+                  className="camera-btn"
+                  onClick={async () => {
+                    // Reset previous photo
+                    setPhotoPreview(null);
+                    setPhotoBlob(null);
 
-        // Start camera fresh
-        await startCamera();
-      }}
-    >
-      🔄 Retake
-    </button>
-  </div>
-)}
+                    // Start camera fresh
+                    await startCamera();
+                  }}
+                >
+                  🔄 Retake
+                </button>
+              </div>
+            )}
 
 
               <canvas ref={canvasRef} hidden />
