@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import CaptureIcon from "../assets/social/facebook.svg";
+import SwitchIcon from "../assets/social/facebook.svg";
+
 
 export default function ShareContact({ userId, onToggle }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -171,10 +174,11 @@ const handleScroll = () => {
       {isOpen && (
         <div className="share-contact-modal">
           <div
-  className="share-contact-content"
-  ref={contentRef}
-  onScroll={handleScroll}
->
+            className="share-contact-content"
+            ref={contentRef}
+            onScroll={handleScroll}
+          >
+            
 
             <h3 className="share-contact-heading">Share Your Contact</h3>
 
